@@ -97,7 +97,7 @@ int main()
         default:
             system("cls");
             puts("\t\t--------------------------");
-            puts("\t      Invalid command");
+            puts("\t\t      Invalid command");
             puts("\t\tPlease inter right command");
             puts("\t\t--------------------------");
             Sleep(1000);
