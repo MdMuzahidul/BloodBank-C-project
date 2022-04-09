@@ -19,15 +19,29 @@ typedef struct Donar
     char CONTACTNO[CONTACT_SIZE];
 } Donar;
 
+void openFile(const char *m)
+{
+    donarRecord = fopen(donarPath, m);
+}
+
+// ask to return main menu
+void askToReturnMainMenu()
+{
+    system("echo Press any key to return");
+    getch();
+}
+
 void mainMenu()
 {
-    printf("\t ************************************\n");
-    printf("\t ****** Welcome To  Blood Bank ******\n");
-    printf("\t ************************************\n");
-    printf("\t\tPress 1 to donate blood \n");
-    printf("\t\tPress 2 to search blood group \n");
-    printf("\t\tPress 3 to delete data \n");
-    printf("\t\tpress 4 to close program \n");
+    system("cls");
+    printf("\t **************************************\n");
+    printf("\t ******* Welcome To  Blood Bank *******\n");
+    printf("\t **************************************\n");
+    printf("\t\tPress 1 to insert donar info \n");
+    printf("\t\tPress 2 to search by blood group \n");
+    printf("\t\tPress 3 to show all donar \n");
+    printf("\t\tPress 4 to delete data \n");
+    printf("\t\tpress 5 to close program \n");
 }
 void insertData()
 {
@@ -49,7 +63,8 @@ void insertData()
     gets(userData.CONTACTNO);
     puts("");
 
-    donarRecord = fopen(donarPath, "a");
+    openFile("a");
+    // donarRecord = fopen(donarPath, "a");
     fwrite(&userData, sizeof(Donar), 1, donarRecord);
     fclose(donarRecord);
 }
@@ -70,17 +85,36 @@ void searchBloodGroup()
 }
 void deleteData()
 {
+    system("rmdir /s data");
+    puts("Data deleted");
+    getch();
 }
+
+void showAllDonar()
+{
+    int count = 1;
+    openFile("r");
+    Donar tmpDonar;
+    printf("   %-35s%-20s%-30s%-20s\n", "Name", "Blood Group", "Address", "Contact no.");
+    puts("----------------------------------------------------------------------------------------------------");
+    while (fread(&tmpDonar, sizeof(Donar), 1, donarRecord) == 1)
+    {
+        printf("%d. %-35s%-20s%-30s%-20s\n", count++, tmpDonar.NAME, tmpDonar.BLOODGROUP, tmpDonar.ADDRESS, tmpDonar.CONTACTNO);
+        puts("----------------------------------------------------------------------------------------------------");
+    }
+    askToReturnMainMenu();
+}
+
 int main()
 {
     while (1)
     {
+        system("md data");
         mainMenu();
         int tag;
         scanf("%d", &tag);
         switch (tag)
         {
-
         case 1:
             system("cls");
             insertData();
@@ -90,9 +124,13 @@ int main()
             searchBloodGroup();
             break;
         case 3:
-            deleteData();
+            system("cls");
+            showAllDonar();
             break;
         case 4:
+            deleteData();
+            break;
+        case 5:
             return 0;
         default:
             system("cls");
