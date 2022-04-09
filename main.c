@@ -64,7 +64,6 @@ void insertData()
     puts("");
 
     openFile("a");
-    // donarRecord = fopen(donarPath, "a");
     fwrite(&userData, sizeof(Donar), 1, donarRecord);
     fclose(donarRecord);
 }
@@ -102,6 +101,7 @@ void showAllDonar()
         printf("%d. %-35s%-20s%-30s%-20s\n", count++, tmpDonar.NAME, tmpDonar.BLOODGROUP, tmpDonar.ADDRESS, tmpDonar.CONTACTNO);
         puts("----------------------------------------------------------------------------------------------------");
     }
+    fclose(donarRecord);
     askToReturnMainMenu();
 }
 
