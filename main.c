@@ -31,6 +31,15 @@ void askToReturnMainMenu()
     getch();
 }
 
+void status(char st[])
+{
+    system("cls");
+    puts("****************************************************");
+    printf("\n\t%s\n\n", st);
+    puts("****************************************************");
+    Sleep(1500);
+}
+
 void mainMenu()
 {
     system("cls");
@@ -66,6 +75,7 @@ void insertData()
     openFile("a");
     fwrite(&userData, sizeof(Donar), 1, donarRecord);
     fclose(donarRecord);
+    status("The Data Is successfully Stored");
 }
 void searchBloodGroup()
 {
@@ -81,6 +91,8 @@ void searchBloodGroup()
     printf("\t\t 6. AB(-ev)\n");
     printf("\t\t 7. O(+ev)\n");
     printf("\t\t 8. O(-ev)\n");
+    printf("\n\tInter Keyword:");
+    getch();
 }
 void deleteData()
 {
@@ -107,10 +119,12 @@ void showAllDonar()
 
 int main()
 {
+    system("color F0");
     while (1)
     {
         system("md data");
         mainMenu();
+        printf("\n\tInter Keyword:");
         int tag;
         scanf("%d", &tag);
         switch (tag)
@@ -131,7 +145,10 @@ int main()
             deleteData();
             break;
         case 5:
+            system("cls");
+            system("exit");
             return 0;
+            break;
         default:
             system("cls");
             puts("\t\t--------------------------");
