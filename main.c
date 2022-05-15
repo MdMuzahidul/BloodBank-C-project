@@ -46,9 +46,9 @@ void askToReturnMainMenu()
 void status(char st[])
 {
     system("cls");
-    puts("****************************************************");
-    printf("\n\t%s\n\n", st);
-    puts("****************************************************");
+    printf("\n\n\n\n\t\t\t\t\t----------------------------------------------------------------------------------\n"); 
+    printf("\n\t\t\t\t\t\t\t\t%s\n\n", st);
+    printf("\t\t\t\t\t----------------------------------------------------------------------------------\n");
     Sleep(800);
 }
 void deleteSingleDonarinfo()
@@ -66,7 +66,7 @@ void deleteSingleDonarinfo()
         if (!strcmp(tmpDonar[indx].CONTACTNO, sample))
         {
             puts("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-            printf("%-35s%-20s%-30s%-20s%-30s%-30s%-20s%-15s\n", tmpDonar[indx].NAME, tmpDonar[indx].STUDENTID, tmpDonar[indx].DEPARTMENT, tmpDonar[indx].BLOODGROUP, tmpDonar[indx].ADDRESS, tmpDonar[indx].HOMEDISTRICT, tmpDonar[indx].CONTACTNO, tmpDonar[indx].DATE);
+            printf("   %-35s%-20s%-20s%-15s%-20s%-30s%-20s%-15s\n", tmpDonar[indx].NAME, tmpDonar[indx].STUDENTID, tmpDonar[indx].DEPARTMENT, tmpDonar[indx].BLOODGROUP, tmpDonar[indx].ADDRESS, tmpDonar[indx].HOMEDISTRICT, tmpDonar[indx].CONTACTNO, tmpDonar[indx].DATE);
             puts("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         }
         indx++;
@@ -88,13 +88,14 @@ void mainMenu()
     system("cls");
     printf("\t ----------------------------------------------------------------------------------\n");
     printf("\t\t\t\t Welcome To 'BSMRSTU'  Blood Bank\n");
-    printf("\t ----------------------------------------------------------------------------------\n");
-    printf("\t\tPress 1 to insert donar info \n");
-    printf("\t\tPress 2 to search by blood group \n");
-    printf("\t\tPress 3 to show all donar \n");
-    printf("\t\tPress 4 to search by student ID \n");
-    printf("\t\tpress 5 to delete single donar \n");
-    printf("\t\tpress 6 to close program \n");
+    printf("\t ----------------------------------------------------------------------------------\n\n\n");
+    printf("\t\t\t\tPress 1 to insert donar info \n");
+    printf("\t\t\t\tPress 2 to search by blood group \n");
+    printf("\t\t\t\tPress 3 to search by student ID \n");
+    printf("\t\t\t\tPress 4 to search by Department Name \n");
+    printf("\t\t\t\tPress 5 to show all donar \n");
+    printf("\t\t\t\tpress 6 to delete single donar \n");
+    printf("\t\t\t\tpress 7 to close program \n");
 }
 
 void toUpperCase(char *st)
@@ -110,9 +111,9 @@ void insertData()
 {
     getchar();
     Donar userData;
-    printf("\t ----------------------------------------------------------------------------------\n");
-    printf("\t\t\t\tGive Blood To Save Life\n");
-    printf("\t ----------------------------------------------------------------------------------\n");
+    printf("\t ------------------------------------------------------------------------------------\n");
+    printf("\t\t\t\t\tGive Blood To Save Life\n");
+    printf("\t ------------------------------------------------------------------------------------\n");
     printf("\t\tNAME: ");
     gets(userData.NAME);
     puts("");
@@ -142,7 +143,7 @@ void insertData()
     openFile("a");
     fwrite(&userData, sizeof(Donar), 1, donarRecord);
     fclose(donarRecord);
-    status("****The Data Is successfully Stored****");
+    status("The Data Is successfully Stored");
 }
 
 void searchResult(char bg[])
@@ -150,13 +151,13 @@ void searchResult(char bg[])
     int count = 1, isDonarExist = 0;
     Donar temInfo;
     openFile("r");
-    printf("  %-35s%-20s%-30s%-20s%-30s%-30s%-20s%-15s\n", "Name", "Student_ID", "Department", "Blood Group", "Address", "Home_District", "Contact no.", "Date");
+    printf("   %-35s%-20s%-20s%-15s%-20s%-30s%-20s%-15s\n", "Name", "Student_ID", "Department", "Blood Group", "Address", "Home_District", "Contact no.", "Date");
     puts("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
     while (fread(&temInfo, sizeof(Donar), 1, donarRecord) == 1)
     {
         if (!strcmp(temInfo.BLOODGROUP, bg))
         {
-            printf("%d.%-35s%-20s%-30s%-20s%-30s%-30s%-20s%-15s\n", count++, temInfo.NAME, temInfo.STUDENTID, temInfo.DEPARTMENT, temInfo.BLOODGROUP, temInfo.ADDRESS, temInfo.HOMEDISTRICT, temInfo.CONTACTNO, temInfo.DATE);
+            printf("%d. %-35s%-20s%-20s%-15s%-20s%-30s%-20s%-15s\n", count++, temInfo.NAME, temInfo.STUDENTID, temInfo.DEPARTMENT, temInfo.BLOODGROUP, temInfo.ADDRESS, temInfo.HOMEDISTRICT, temInfo.CONTACTNO, temInfo.DATE);
             puts("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
             isDonarExist++;
         }
@@ -176,13 +177,13 @@ void searchResultStudintID(char id[])
     int count = 1, isDonarExist = 0;
     Donar temInfo;
     openFile("r");
-    printf("  %-35s%-20s%-30s%-20s%-30s%-30s%-20s%-15s\n", "Name", "Student_ID", "Department", "Blood Group", "Address", "Home_District", "Contact no.", "Date");
+    printf("   %-35s%-20s%-20s%-15s%-20s%-30s%-20s%-15s\n", "Name", "Student_ID", "Department", "Blood Group", "Address", "Home_District", "Contact no.", "Date");
     puts("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
     while (fread(&temInfo, sizeof(Donar), 1, donarRecord) == 1)
     {
         if (!strcmp(temInfo.STUDENTID, id))
         {
-            printf("%d.%-35s%-20s%-30s%-20s%-30s%-30s%-20s%-15s\n", count++, temInfo.NAME, temInfo.STUDENTID, temInfo.DEPARTMENT, temInfo.BLOODGROUP, temInfo.ADDRESS, temInfo.HOMEDISTRICT, temInfo.CONTACTNO, temInfo.DATE);
+            printf("%d. %-35s%-20s%-20s%-15s%-20s%-30s%-20s%-15s\n", count++, temInfo.NAME, temInfo.STUDENTID, temInfo.DEPARTMENT, temInfo.BLOODGROUP, temInfo.ADDRESS, temInfo.HOMEDISTRICT, temInfo.CONTACTNO, temInfo.DATE);
             puts("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
             isDonarExist++;
         }
@@ -196,7 +197,32 @@ void searchResultStudintID(char id[])
     }
     system("pause");
 }
+void searchResultDepartmentName(char dep[])
+{
 
+    int count = 1, isDonarExist = 0;
+    Donar temInfo;
+    openFile("r");
+    printf("   %-35s%-20s%-20s%-15s%-20s%-30s%-20s%-15s\n", "Name", "Student_ID", "Department", "Blood Group", "Address", "Home_District", "Contact no.", "Date");
+    puts("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+    while (fread(&temInfo, sizeof(Donar), 1, donarRecord) == 1)
+    {
+        if (!strcmp(temInfo.DEPARTMENT, dep))
+        {
+            printf("%d. %-35s%-20s%-20s%-15s%-20s%-30s%-20s%-15s\n", count++, temInfo.NAME, temInfo.STUDENTID, temInfo.DEPARTMENT, temInfo.BLOODGROUP, temInfo.ADDRESS, temInfo.HOMEDISTRICT, temInfo.CONTACTNO, temInfo.DATE);
+            puts("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+            isDonarExist++;
+        }
+    }
+    if (isDonarExist == 0)
+    {
+        system("cls");
+        puts("\t---------------------------------------------------------------------");
+        printf("\n\t\t\t\tData Not Found\n\n");
+        puts("\t---------------------------------------------------------------------");
+    }
+    system("pause");
+}
 void searchBloodGroup()
 {
     int inp;
@@ -215,9 +241,9 @@ void searchBloodGroup()
     scanf("%d", &inp);
     getchar();
     system("cls");
-    printf("\t *****************************************\n");
-    printf("\t ****** Help Me To Find Blood Doner ******\n");
-    printf("\t *****************************************\n");
+    printf("\t\t\t\t\t\t\t------------------------------------------------------------------------------------------\n");
+    printf("\t\t\t\t\t\t\t\t\t\t\tShow Result For Blood Group\n");
+    printf("\t\t\t\t\t\t\t------------------------------------------------------------------------------------------\n\n\n");
 
     switch (inp)
     {
@@ -269,25 +295,30 @@ void searchBloodGroup()
 void studentId()
 {
     char id[STUDENTID_SIZE];
-    printf("Inter Search Id:");
+    printf("\n\n\t\tInter Search Id:");
     scanf("%s", &id);
     system("cls");
-    system("color B1");
     puts("\t\t\t\t\t\t--------------------------------------------------------------------------------------------------------------");
-    puts("\t\t\t\t\t\t\t\t\t\t\tSearch Result For Student_ID");
+    puts("\t\t\t\t\t\t\t\t\t\t\tShow Result For Student_ID");
     puts("\t\t\t\t\t\t--------------------------------------------------------------------------------------------------------------\n\n");
     searchResultStudintID(id);
 }
-
-void deleteData()
+void departmentName()
 {
-    system("rmdir /s data");
-    // puts("Data deleted");
-    // getch();
+    char dep[DEPARTMENT_SIZE];
+    printf("\n\n\t\tInter Department Name:");
+    scanf("%s", &dep);
+    system("cls");
+    puts("\t\t\t\t\t\t--------------------------------------------------------------------------------------------------------------");
+    puts("\t\t\t\t\t\t\t\t\t\t\tShow Result For Department Name");
+    puts("\t\t\t\t\t\t--------------------------------------------------------------------------------------------------------------\n\n");
+    searchResultDepartmentName(dep);
 }
-
 void showAllDonar()
 {
+    puts("\t\t\t\t\t--------------------------------------------------------------------------------------------------------------");
+    puts("\t\t\t\t\t\t\t\t\t\tShow All Donar Information");
+    puts("\t\t\t\t\t--------------------------------------------------------------------------------------------------------------\n\n");
     int count = 1;
     openFile("r");
     Donar tmpDonar;
@@ -304,12 +335,13 @@ void showAllDonar()
 
 int main()
 {
-    system("color ");
+    system("cls");
+    system("color 20");
     while (1)
     {
         system("md data");
         mainMenu();
-        printf("\n\tInter Keyword:");
+        printf("\n\t\t\tInter Keyword:");
         int tag;
         scanf("%d", &tag);
         switch (tag)
@@ -324,16 +356,20 @@ int main()
             break;
         case 3:
             system("cls");
-            showAllDonar();
+            studentId();
             break;
         case 4:
             system("cls");
-            studentId();
+            departmentName();
             break;
         case 5:
-            deleteSingleDonarinfo();
+            system("cls");
+            showAllDonar();
             break;
         case 6:
+            deleteSingleDonarinfo();
+            break;
+        case 7:
             system("cls");
             system("exit");
             return 0;
