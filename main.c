@@ -29,6 +29,13 @@ typedef struct Donar
     char DEPARTMENT[DEPARTMENT_SIZE];
 } Donar;
 
+// Cursor position change
+void gotoxy(short x, short y)
+{
+    COORD pos = {x, y};
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+}
+
 // open file
 void openFile(const char *m)
 {
@@ -46,7 +53,7 @@ void askToReturnMainMenu()
 void status(char st[])
 {
     system("cls");
-    printf("\n\n\n\n\t\t\t\t\t----------------------------------------------------------------------------------\n"); 
+    printf("\n\n\n\n\t\t\t\t\t----------------------------------------------------------------------------------\n");
     printf("\n\t\t\t\t\t\t\t\t%s\n\n", st);
     printf("\t\t\t\t\t----------------------------------------------------------------------------------\n");
     Sleep(800);
@@ -94,8 +101,9 @@ void mainMenu()
     printf("\t\t\t\tPress 3 to search by student ID \n");
     printf("\t\t\t\tPress 4 to search by Department Name \n");
     printf("\t\t\t\tPress 5 to show all donar \n");
-    printf("\t\t\t\tpress 6 to delete single donar \n");
-    printf("\t\t\t\tpress 7 to close program \n");
+    printf("\t\t\t\tpress 6 to edit donar information \n");
+    printf("\t\t\t\tpress 7 to delete donar \n");
+    printf("\t\t\t\tpress 8 to close program \n");
 }
 
 void toUpperCase(char *st)
@@ -333,6 +341,128 @@ void showAllDonar()
     askToReturnMainMenu();
 }
 
+void editDonarInfo()
+{
+    openFile("r");
+    int count = 1;
+    int serialNumber = 0;
+    int index = 0;
+    Donar *editDonar = (Donar *)calloc(1, sizeof(Donar));
+    printf("   %-35s%-20s%-20s%-15s%-20s%-30s%-20s%-15s\n", "Name", "Student_ID", "Department", "Blood Group", "Address", "Home_District", "Contact no.", "Date");
+    puts("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+    while (fread(&editDonar[index], sizeof(Donar), 1, donarRecord) == 1)
+    {
+        editDonar = (Donar *)realloc(editDonar, (index + 2) * sizeof(Donar));
+        printf("%d. %-35s%-20s%-20s%-15s%-20s%-30s%-20s%-15s\n", count++, editDonar[index].NAME, editDonar[index].STUDENTID, editDonar[index].DEPARTMENT, editDonar[index].BLOODGROUP, editDonar[index].ADDRESS, editDonar[index].HOMEDISTRICT, editDonar[index].CONTACTNO, editDonar[index].DATE);
+        index++;
+        puts("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+    }
+    fclose(donarRecord);
+    printf("Put the serial number: ");
+    scanf("%d", &serialNumber);
+    fflush(stdin);
+    if (serialNumber >= 1 && serialNumber <= index)
+    {
+        system("cls");
+        puts("================================================================================================================================================================================");
+        printf("%d. %-35s%-20s%-20s%-15s%-20s%-30s%-20s%-15s\n", serialNumber, editDonar[serialNumber - 1].NAME, editDonar[serialNumber - 1].STUDENTID, editDonar[serialNumber - 1].DEPARTMENT, editDonar[serialNumber - 1].BLOODGROUP, editDonar[serialNumber - 1].ADDRESS, editDonar[serialNumber - 1].HOMEDISTRICT, editDonar[serialNumber - 1].CONTACTNO, editDonar[serialNumber - 1].DATE);
+        puts("================================================================================================================================================================================");
+        printf("Are you sure want to edit (y / n): ");
+        char ch;
+        scanf("%c", &ch);
+        fflush(stdin);
+        if (ch == 'Y' || ch == 'y')
+        {
+            Donar newDonarData;
+            puts("\n\n\t\t\t\tIf you don't want to update any field\n\t\t\t\t\t  Leave that blank.");
+            gotoxy(35, 10);
+            printf("%-16s :\n", "Name");
+            gotoxy(35, 12);
+            printf("%-16s :\n", "Student ID");
+            gotoxy(35, 14);
+            printf("%-16s :\n", "Department");
+            gotoxy(35, 16);
+            printf("%-16s :\n", "Blood group");
+            gotoxy(35, 18);
+            printf("%-16s :\n", "Address");
+            gotoxy(35, 20);
+            printf("%-16s :\n", "Home district");
+            gotoxy(35, 22);
+            printf("%-16s :\n", "Contact no");
+            gotoxy(35, 24);
+            printf("%-16s :\n", "Last donate date");
+
+            gotoxy(55, 10);
+            gets(newDonarData.NAME);
+            gotoxy(55, 12);
+            gets(newDonarData.STUDENTID);
+            gotoxy(55, 14);
+            gets(newDonarData.DEPARTMENT);
+            gotoxy(55, 16);
+            gets(newDonarData.BLOODGROUP);
+            gotoxy(55, 18);
+            gets(newDonarData.ADDRESS);
+            gotoxy(55, 20);
+            gets(newDonarData.HOMEDISTRICT);
+            gotoxy(55, 22);
+            gets(newDonarData.CONTACTNO);
+            gotoxy(55, 24);
+            gets(newDonarData.DATE);
+
+            if (strlen(newDonarData.NAME) > 0)
+            {
+                strcpy(editDonar[serialNumber - 1].NAME, newDonarData.NAME);
+            }
+            if (strlen(newDonarData.STUDENTID) > 0)
+            {
+                strcpy(editDonar[serialNumber - 1].STUDENTID, newDonarData.STUDENTID);
+            }
+            if (strlen(newDonarData.DEPARTMENT) > 0)
+            {
+                strcpy(editDonar[serialNumber - 1].DEPARTMENT, newDonarData.DEPARTMENT);
+            }
+            if (strlen(newDonarData.BLOODGROUP) > 0)
+            {
+                strcpy(editDonar[serialNumber - 1].BLOODGROUP, newDonarData.BLOODGROUP);
+            }
+            if (strlen(newDonarData.ADDRESS) > 0)
+            {
+                strcpy(editDonar[serialNumber - 1].ADDRESS, newDonarData.ADDRESS);
+            }
+            if (strlen(newDonarData.HOMEDISTRICT) > 0)
+            {
+                strcpy(editDonar[serialNumber - 1].HOMEDISTRICT, newDonarData.HOMEDISTRICT);
+            }
+            if (strlen(newDonarData.CONTACTNO) > 0)
+            {
+                strcpy(editDonar[serialNumber - 1].CONTACTNO, newDonarData.CONTACTNO);
+            }
+            if (strlen(newDonarData.DATE) > 0)
+            {
+                strcpy(editDonar[serialNumber - 1].DATE, newDonarData.DATE);
+            }
+
+            openFile("w");
+            for (int i = 0; i < index; i++)
+            {
+                fwrite(&editDonar[i], sizeof(Donar), 1, donarRecord);
+            }
+            fclose(donarRecord);
+            status("Successfully updated");
+        }
+        else
+        {
+            status("Abort editing");
+        }
+    }
+    else
+    {
+        status("Not found");
+        return;
+    }
+    system("pause");
+}
+
 int main()
 {
     system("cls");
@@ -367,9 +497,13 @@ int main()
             showAllDonar();
             break;
         case 6:
-            deleteSingleDonarinfo();
+            system("cls");
+            editDonarInfo();
             break;
         case 7:
+            deleteSingleDonarinfo();
+            break;
+        case 8:
             system("cls");
             system("exit");
             return 0;
